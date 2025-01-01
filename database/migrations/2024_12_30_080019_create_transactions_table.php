@@ -11,9 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaksi_barang', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->string('transaction_number');
+            $table->unsignedBigInteger('branch_id');
+            $table->unsignedBigInteger('user_id');
+            $table->integer('total_price');
+            $table->date('date');
             $table->timestamps();
+
+            $table->foreign('branch_id')->references('id')->on('branches');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
