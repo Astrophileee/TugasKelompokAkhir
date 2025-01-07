@@ -5,6 +5,13 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
+        <div class="w-full sm:max-w-md mt-2 px-6 py-3 bg-white overflow-hidden sm:rounded-t-lg">
+            <div class="flex flex-col items-center">
+                <h1 class="text-3xl font-bold text-gray-900">Market Kel4</h1>
+                <p class="mt-2 text-sm text-gray-600">Sign in to your account</p>
+            </div>
+        </div>
+
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
@@ -32,14 +39,22 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+        <div class="flex items-center justify-between mt-4">
+            <div class="text-sm text-gray-600">
+                @if (Route::has('register'))
+                    <a class="hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
+                        {{ __('create account') }}
+                    </a>
+                    <span> | </span>
+                @endif
+                @if (Route::has('password.request'))
+                    <a class="hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                        {{ __('forgot your password?') }}
+                    </a>
+                @endif
+            </div>
 
-            <x-primary-button class="ms-3">
+            <x-primary-button>
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
