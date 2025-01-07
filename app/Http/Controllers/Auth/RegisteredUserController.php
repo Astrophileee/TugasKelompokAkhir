@@ -33,7 +33,8 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'branch_id' => ['required', 'exists:branches,id'],
+            'branch_id' => $request->role !== 'owner' ? 'required|exists:branches,id' : 'nullable',
+            'role' => 'required|exists:roles,name',
         ]);
 
         $user = User::create([
@@ -42,7 +43,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'branch_id' => $request->branch_id,
         ]);
-
+        $user->assignRole($request->role);
         event(new Registered($user));
 
         Auth::login($user);

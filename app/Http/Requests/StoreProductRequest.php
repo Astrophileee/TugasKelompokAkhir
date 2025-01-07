@@ -30,6 +30,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'code' => ['required', 'string', 'max:255'],
             'price' => ['required', 'integer'],
             'stock' => ['required', 'integer'],
             'branch_id' => ['required', 'integer']
@@ -42,6 +43,10 @@ class StoreProductRequest extends FormRequest
             'name.required' => 'Name is required.',
             'name.string' => 'Name must be a string.',
             'name.max' => 'Name must not exceed 255 characters.',
+
+            'code.required' => 'Code is required.',
+            'code.string' => 'Code must be a string.',
+            'code.max' => 'Code must not exceed 255 characters.',
 
             'price.required' => 'Price is required.',
             'price.integer' => 'Price must be a number',

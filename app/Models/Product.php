@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $table = 'products';
-    protected $fillable = ['name','price','stock','branch_id'];
+    protected $fillable = ['name','code','price','stock','branch_id'];
     public function branches()
     {
         return $this->belongsTo(Branch::class);

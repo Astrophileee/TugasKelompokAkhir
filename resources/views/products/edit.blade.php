@@ -22,6 +22,13 @@
                     @enderror
                 </div>
                 <div class="mb-4">
+                    <label for="code" class="block text-sm font-medium text-white">Product Code</label>
+                    <input type="text" name="code" id="code" value="{{ old('code', $product->code) }}" class="input input-bordered w-full" placeholder="Enter product name" required>
+                    @error('code')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="mb-4">
                     <label for="stock" class="block text-sm font-medium text-white">Stock</label>
                     <input type="number" name="stock" id="stock" value="{{ old('name', $product->stock) }}" class="input input-bordered w-full" placeholder="Enter product stock" required min="0">
                     @error('stock')

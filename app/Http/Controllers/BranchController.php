@@ -32,7 +32,7 @@ class BranchController extends Controller
      */
     public function store(StoreBranchRequest $request)
     {
-        $validatedData = $request->validate();
+        $validatedData = $request->validated();
         Branch::create($validatedData);
         return redirect()->route('branches.index')->with('success','Branch added successfully!');
     }
@@ -58,7 +58,7 @@ class BranchController extends Controller
      */
     public function update(UpdateBranchRequest $request, Branch $branch)
     {
-        $validatedData = $request->validate();
+        $validatedData = $request->validated();
         $branch->update($validatedData);
         return redirect()->route('branches.index')->with('success','Branch updated successfully!');
     }
@@ -70,5 +70,31 @@ class BranchController extends Controller
     {
         $branch->delete();
         return redirect()->route('branches.index')->with('success','Branch deleted successfully!');
+    }
+    public function select()
+    {
+        // Menampilkan semua cabang yang tersedia
+        $branches = Branch::all();
+
+        return view('branches.select', compact('branches'));
+    }
+
+    /**
+     * Menyimpan cabang yang dipilih ke dalam sesi.
+     */
+    public function storeSelection($id, Request $request)
+    {
+        // Cek jika branch yang dipilih valid
+        $branch = Branch::find($id);
+
+        if (!$branch) {
+            return redirect()->route('branches.select')->with('error', 'Cabang tidak ditemukan.');
+        }
+
+        // Menyimpan ID cabang yang dipilih ke dalam session
+        $request->session()->put('selected_branch_id', $branch->id);
+
+        // Redirect ke dashboard setelah memilih branch
+        return redirect()->route('dashboard')->with('success', 'Cabang berhasil dipilih!');
     }
 }

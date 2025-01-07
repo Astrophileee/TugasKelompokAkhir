@@ -11,7 +11,7 @@ class UpdateBranchRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class UpdateBranchRequest extends FormRequest
      */
     public function rules(): array
     {
-        $branchId = $this->route('branches')->id;
+        $branchId = $this->route('branch')->id;
         return [
             'name' => ['required', 'string', 'max:255', 'unique:branches,name,' . $branchId],
             'location' => ['required', 'string', 'max:255', 'unique:branches,location,' . $branchId],
