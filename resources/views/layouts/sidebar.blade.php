@@ -3,7 +3,7 @@
     <aside class="bg-black w-80 min-h-screen text-gray-300">
         <div class="p-4 bg-primary text-primary-content">
             <a href="{{ route('dashboard') }}" class="text-2xl font-bold">
-                Market PWL
+                Market PWL {{ Auth::user()->branch->name ?? 'Branch Not Found' }}
             </a>
         </div>
         <ul class="menu p-4">

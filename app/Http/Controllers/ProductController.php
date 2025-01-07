@@ -34,15 +34,19 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $validatedData = $request->validate();
+        $validatedData = $request->validated();
+        $validatedData['price'] = str_replace(['Rp.', '.'], '', $validatedData['price']);
         Product::create($validatedData);
+
         return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Product $product){
+
+
     }
 
     /**

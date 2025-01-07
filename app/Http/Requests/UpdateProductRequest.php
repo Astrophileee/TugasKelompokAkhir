@@ -6,12 +6,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProductRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'price' => str_replace(['Rp.', '.'], '', $this->price)
+        ]);
+    }
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,8 +28,10 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:branches,name'],
-            'location' => ['required', 'string', 'max:255', 'unique:branches,location']
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'integer'],
+            'stock' => ['required', 'integer'],
+            'branch_id' => ['required', 'integer']
         ];
     }
 
@@ -33,13 +41,15 @@ class UpdateProductRequest extends FormRequest
             'name.required' => 'Name is required.',
             'name.string' => 'Name must be a string.',
             'name.max' => 'Name must not exceed 255 characters.',
-            'name.unique' => 'Name must be unique.',
 
+            'price.required' => 'Price is required.',
+            'price.integer' => 'Price must be a number',
 
-            'location.required' => 'Location is required.',
-            'location.string' => 'Location must be a string.',
-            'location.max' => 'Location must not exceed 25 characters.',
-            'location.unique' => 'Location must be unique.',
+            'stock.required' => 'Stock is required.',
+            'stock.integer' => 'Stock must be a number',
+
+            'branch_id.required' => 'Branch ID is required.',
+            'branch_id.integer' => 'Branch ID must be a number',
         ];
     }
 }
