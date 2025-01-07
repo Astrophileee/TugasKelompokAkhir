@@ -6,7 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Branch extends Model
 {
-    protected $fillable = ['name'];
+    protected $table = 'branches';
+    protected $fillable = ['name','location'];
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 
     public function users()
     {
