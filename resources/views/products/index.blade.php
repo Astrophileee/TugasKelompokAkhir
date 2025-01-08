@@ -9,15 +9,24 @@
     <div class="card-body">
         <div class="flex justify-between items-center mb-4">
             <h2 class="card-title">Product List</h2>
-            <span></span>
-            @hasanyrole('manager')
-                <a href="{{ route('products.create') }}">
-                    <button class="btn btn-success flex items-center rounded-md">
-                        <i class="fas fa-plus"></i>
-                        Tambah
-                    </button>
-                </a>
-            @endhasanyrole
+            <div class="flex gap-2">
+                @hasanyrole('manager')
+                    <a href="{{ route('products.create') }}">
+                        <button class="btn btn-success flex items-center rounded-md">
+                            <i class="fas fa-plus"></i>
+                            Tambah
+                        </button>
+                    </a>
+                @endhasanyrole
+                @hasanyrole('manager|owner|supervisor')
+                    <a href="{{ route('products.pdf') }}">
+                        <button class="btn btn-error flex items-center rounded-md">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            Print PDF
+                        </button>
+                    </a>
+                @endhasanyrole
+            </div>
         </div>
         <div class="overflow-x-auto">
             <table id="tableProduct" class="table table-zebra datatable">

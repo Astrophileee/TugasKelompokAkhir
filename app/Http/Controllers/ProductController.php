@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 class ProductController extends Controller
 {
@@ -89,5 +90,31 @@ class ProductController extends Controller
         }
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
+    }
+
+    public function generatePDF(){
+
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $branchName = '';
+
+        if ($user->hasRole('owner')) {
+            $selectedBranch = Branch::find(session('selected_branch_id'));
+            $branchName = $selectedBranch->name ?? 'Cabang Tidak Ditemukan';
+            $branchId = $selectedBranch->id ?? null;
+        } else {
+            $branchName = $user->branch->name ?? 'Cabang Tidak Ditemukan';
+            $branchId = $user->branch->id ?? null;
+        }
+
+        $products = Product::where('branch_id', $branchId)->get();
+
+        $pdf = FacadePdf::loadView('products.pdf', [
+            'products' => $products,
+            'branchName' => $branchName
+        ]);
+
+        return $pdf->download('products_' . $branchName . '.pdf');
+
     }
 }

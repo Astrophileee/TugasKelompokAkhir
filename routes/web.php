@@ -59,14 +59,15 @@ Route::middleware(['auth:web', 'role:cashier|manager|owner|supervisor'])->group(
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 });
 
-Route::middleware(['auth:web', 'role:stocker|manager'])->group(function () {
-    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
-    Route::patch('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+Route::middleware(['auth:web', 'role:owner|supervisor|manager'])->group(function () {
+    Route::get('/products/pdf', [ProductController::class, 'generatePDF'])->name('products.pdf');
 });
 
 Route::middleware(['auth:web', 'role:stocker|manager'])->group(function () {
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::patch('/products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 
