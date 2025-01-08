@@ -14,10 +14,13 @@
 
                     $user = Auth::user();
                     $branchName = '';
+                    $roleName = $user->roles->pluck('name')->map(fn($role) => ucwords($role))->join(', ');
 
                     if ($user->hasRole('owner')) {
                         $selectedBranch = Branch::find(session('selected_branch_id'));
                         $branchName = $selectedBranch->name ?? 'Cabang Tidak Ditemukan';
+                    } elseif ($user->hasRole('admin')) {
+                        $branchName = 'Admin - Tidak Perlu Cabang';
                     } else {
                         $branchName = $user->branch->name ?? 'Cabang Tidak Ditemukan';
                     }
@@ -26,6 +29,10 @@
                 <div>
                     Cabang: {{ $branchName }}
                 </div>
+                <div class="">
+                    Role : {{ $roleName }}
+                </div>
+
             </li>
             <!-- Dashboard -->
             <li>
@@ -37,9 +44,18 @@
             <!-- Branches -->
             @hasanyrole('admin|owner')
             <li>
-                <a href="{{ route('branches.index') }}" class="{{ request()->routeIs('branches.*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-code-branch"></i>
+                <a href="{{ route('branches.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-users"></i>
                     Branches
+                </a>
+            </li>
+            @endhasanyrole
+            <!-- Users -->
+            @hasanyrole('admin|owner')
+            <li>
+                <a href="{{ route('users.index') }}" class="{{ request()->routeIs('branches.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-code-branch"></i>
+                    Users
                 </a>
             </li>
             @endhasanyrole
@@ -74,7 +90,7 @@
                         </a>
                     </li>
                     @endhasanyrole
-                    @hasanyrole('cashier|manager|supervisor')
+                    @hasanyrole('owner|cashier|manager|supervisor')
                     <li>
                         <a href="{{ route('transactions.index') }}" class="{{ request()->routeIs('transactions.index') ? 'active' : '' }}">
                             <i class="fa-solid fa-file-invoice"></i>

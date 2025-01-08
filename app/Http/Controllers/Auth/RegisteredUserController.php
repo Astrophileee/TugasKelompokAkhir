@@ -33,7 +33,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'branch_id' => $request->role !== 'owner' ? 'required|exists:branches,id' : 'nullable',
+            'branch_id' => in_array($request->role, ['owner', 'admin']) ? 'nullable' : 'required|exists:branches,id',
             'role' => 'required|exists:roles,name',
         ]);
 

@@ -84,6 +84,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        if ($product->transactions()->exists()) {
+            return redirect()->route('products.index')->with('error', 'Product cannot be deleted because they are associated with transactions.');
+        }
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }

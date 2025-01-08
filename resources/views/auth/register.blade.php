@@ -36,7 +36,7 @@
 
         <!-- Branch ID -->
         <div id="branch-container" class="mt-4">
-            <x-input-label for="branch_id" :value="__('Branch')" />
+            <x-input-label for="branch_id" :value="__('Branch')" class="text-black" />
             <select id="branch_id" name="branch_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                 <option value="">Select Branch</option>
                 @foreach(\App\Models\Branch::all() as $branch)
@@ -84,7 +84,7 @@
 
             // Fungsi untuk menyembunyikan atau menampilkan field branch
             function toggleBranchField() {
-                if (roleSelect.value === 'owner') {
+                if (roleSelect.value === 'owner' || roleSelect.value === 'admin') {
                     branchContainer.style.display = 'none'; // Sembunyikan field branch
                     branchSelect.removeAttribute('required'); // Hapus validasi required
                     branchSelect.value = ''; // Reset value

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransactionRequest;
+use App\Models\Branch;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
@@ -20,7 +21,17 @@ class TransactionController extends Controller
      */
     public function index(Request $request): View
     {
-        $branchId = Auth::user()->branch_id;
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $branchId = '';
+
+        if ($user->hasRole('owner')) {
+            $selectedBranch = Branch::find(session('selected_branch_id'));
+            $branchId = $selectedBranch->id ?? 'Cabang Tidak Ditemukan';
+        } else {
+            $branchId = $user->branch->id ?? 'Cabang Tidak Ditemukan';
+        }
+        $branchId = $branchId;
         $transactions = Transaction::with('user')->where('branch_id', $branchId)->get();
         return view('transactions.index', ['user' => $request->user(), 'transactions' => $transactions]);
     }

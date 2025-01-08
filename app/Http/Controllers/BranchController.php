@@ -68,12 +68,21 @@ class BranchController extends Controller
      */
     public function destroy(Branch $branch)
     {
+        if ($branch->transactions()->exists()) {
+            return redirect()->route('branches.index')->with('error', 'Branch cannot be deleted because they are associated with transactions.');
+        }
+
+        if ($branch->products()->exists()) {
+            return redirect()->route('branches.index')->with('error', 'Branch cannot be deleted because they are associated with products.');
+        }
+        if ($branch->users()->exists()) {
+            return redirect()->route('branches.index')->with('error', 'Branch cannot be deleted because they are associated with users.');
+        }
         $branch->delete();
         return redirect()->route('branches.index')->with('success','Branch deleted successfully!');
     }
     public function select()
     {
-        // Menampilkan semua cabang yang tersedia
         $branches = Branch::all();
 
         return view('branches.select', compact('branches'));
@@ -84,17 +93,11 @@ class BranchController extends Controller
      */
     public function storeSelection($id, Request $request)
     {
-        // Cek jika branch yang dipilih valid
         $branch = Branch::find($id);
-
         if (!$branch) {
             return redirect()->route('branches.select')->with('error', 'Cabang tidak ditemukan.');
         }
-
-        // Menyimpan ID cabang yang dipilih ke dalam session
         $request->session()->put('selected_branch_id', $branch->id);
-
-        // Redirect ke dashboard setelah memilih branch
         return redirect()->route('dashboard')->with('success', 'Cabang berhasil dipilih!');
     }
 }

@@ -15,28 +15,28 @@
                 <input type="hidden" name="branch_id" value="{{ Auth::user()->branch_id }}">
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-white">Product Name</label>
-                    <input type="text" name="name" id="name" class="input input-bordered w-full" placeholder="Enter product name" required>
+                    <input type="text" name="name" id="name" class="input input-bordered w-full" placeholder="Enter product name" value="{{ old('name') }}" required>
                     @error('name')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="mb-4">
                     <label for="code" class="block text-sm font-medium text-white">Product Code</label>
-                    <input type="text" name="code" id="code" class="input input-bordered w-full" placeholder="Enter product name" required>
+                    <input type="text" name="code" id="code" class="input input-bordered w-full" placeholder="Enter product name" value="{{ old('code') }}" required>
                     @error('code')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="mb-4">
                     <label for="stock" class="block text-sm font-medium text-white">Stock</label>
-                    <input type="number" name="stock" id="stock" class="input input-bordered w-full" placeholder="Enter product stock" required min="0">
+                    <input type="number" name="stock" id="stock" class="input input-bordered w-full" placeholder="Enter product stock" value="{{ old('stock') }}" required min="0">
                     @error('stock')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="mb-4">
                     <label for="price" class="block text-sm font-medium text-white">Price</label>
-                    <input type="text" name="price" id="price" class="input input-bordered w-full" placeholder="Enter product price" required>
+                    <input type="text" name="price" id="price" class="input input-bordered w-full" placeholder="Enter product price" value="{{ old('price') }}" required>
                     @error('price')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror

@@ -14,14 +14,14 @@
                 @csrf
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-white">Branch Name</label>
-                    <input type="text" name="name" id="name" class="input input-bordered w-full" placeholder="Enter branch name" required>
+                    <input type="text" name="name" id="name" class="input input-bordered w-full" placeholder="Enter branch name" value="{{ old('name') }}" required>
                     @error('name')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="mb-4">
                     <label for="location" class="block text-sm font-medium text-white">Branch Location</label>
-                    <textarea name="location" id="location" class="input input-bordered w-full" placeholder="Enter branch location" required></textarea>
+                    <textarea name="location" id="location" class="input input-bordered w-full" placeholder="Enter branch location" required>value="{{ old('location') }}"</textarea>
                     @error('location')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror

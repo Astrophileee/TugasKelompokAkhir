@@ -1,64 +1,58 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-base-content leading-tight">
-            {{ __('Products') }}
+            {{ __('Users') }}
         </h2>
     </x-slot>
 
     <div class="card bg-base-100 shadow-xl">
     <div class="card-body">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="card-title">Product List</h2>
+            <h2 class="card-title">Users List</h2>
             <span></span>
-            @hasanyrole('manager')
-                <a href="{{ route('products.create') }}">
+                <a href="{{ route('users.create') }}">
                     <button class="btn btn-success flex items-center rounded-md">
                         <i class="fas fa-plus"></i>
                         Tambah
                     </button>
                 </a>
-            @endhasanyrole
         </div>
         <div class="overflow-x-auto">
-            <table id="tableProduct" class="table table-zebra datatable">
+            <table id="tableUser" class="table table-zebra datatable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Code</th>
                         <th>Name</th>
-                        <th>Price</th>
-                        <th>Stock</th>
+                        <th>Email</th>
+                        <th>Branch</th>
+                        <th>Role</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($products as $product )
+                    @foreach ($users as $user )
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ strtoupper($product->code) }}</td>
-                        <td>{{ ucwords($product->name) }}</td>
-                        <td>Rp. {{ number_format($product->price, 0, ',', '.') }}</td>
-                        <td>{{ $product->stock }}</td>
+                        <td>{{ ucwords($user->name) }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->branch->name ?? '-' }}</td>
+                        <td>{{ $user->roles->pluck('name')->join(', ') }}</td>
                         <td>
                             <div class="flex space-x-2">
-                                @hasanyrole('manager|stocker')
-                                <a href="{{ route('products.edit', $product) }}">
+                                <a href="{{ route('users.edit', $user) }}">
                                     <button class="text-blue-600 hover:text-blue-900 border border-blue-600 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200">
                                         Edit
                                     </button>
                                 </a>
-                                @endhasanyrole
-                                @hasanyrole('manager')
-                                <form id="deleteForm{{ $product->id }}" action="{{ route('products.destroy', $product) }}" method="POST">
+                                <form id="deleteForm{{ $user->id }}" action="{{ route('users.destroy', $user) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button"
-                                            onclick="confirmDelete('{{ $product->id }}')"
+                                            onclick="confirmDelete('{{ $user->id }}')"
                                             class="text-red-600 hover:text-red-900 border border-red-600 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-200">
                                         Delete
                                     </button>
                                 </form>
-                                @endhasanyrole
                             </div>
                         </td>
                     </tr>
@@ -71,7 +65,7 @@
 
 
 <script>
-    function confirmDelete(productId) {
+    function confirmDelete(userId) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -82,7 +76,7 @@
             confirmButtonText: 'Yes, delete it!',
         }).then((result) => {
             if (result.isConfirmed) {
-                document.getElementById('deleteForm' + productId).submit();
+                document.getElementById('deleteForm' + userId).submit();
             }
         });
     }
