@@ -10,13 +10,16 @@
         <div class="flex justify-between items-center mb-4">
             <h2 class="card-title">Transactions List</h2>
             <span></span>
-            <a href="{{ route('transactions.create') }}">
-                <button class="btn btn-success flex items-center rounded-md">
-                    <i class="fas fa-plus"></i>
-                    Tambah
-                </button>
-            </a>
+            @hasanyrole('cashier|manager|supervisor')
+                <a href="{{ route('transactions.create') }}">
+                    <button class="btn btn-success flex items-center rounded-md">
+                        <i class="fas fa-plus"></i>
+                        Tambah
+                    </button>
+                </a>
+            @endhasanyrole
         </div>
+
         <div class="overflow-x-auto">
             <table id="tableBranches" class="table table-zebra datatable">
                 <thead>
@@ -44,13 +47,14 @@
                                         Detail
                                     </button>
                                 </a>
-
+                                @hasanyrole('cashier|manager')
                                 <a href="{{ route('transactions.edit', $transaction) }}">
                                     <button class="text-info hover:text-blue-900 border border-info rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200">
                                         Edit
                                     </button>
                                 </a>
-
+                                @endhasanyrole
+                                @hasanyrole('manager')
                                 <form id="deleteForm{{ $transaction->id }}" action="{{ route('transactions.destroy', $transaction) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -60,6 +64,7 @@
                                         Delete
                                     </button>
                                 </form>
+                                @endhasanyrole
                             </div>
                         </td>
                     </tr>

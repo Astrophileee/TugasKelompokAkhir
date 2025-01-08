@@ -40,7 +40,7 @@
                                         Edit
                                     </button>
                                 </a>
-
+                                @hasanyrole('owner')
                                 <form id="deleteForm{{ $branch->id }}" action="{{ route('branches.destroy', $branch) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -50,6 +50,7 @@
                                         Delete
                                     </button>
                                 </form>
+                                @endhasanyrole
                             </div>
                         </td>
                     </tr>

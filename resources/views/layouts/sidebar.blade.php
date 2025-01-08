@@ -35,19 +35,24 @@
                 </a>
             </li>
             <!-- Branches -->
+            @hasanyrole('admin|owner')
             <li>
                 <a href="{{ route('branches.index') }}" class="{{ request()->routeIs('branches.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-code-branch"></i>
                     Branches
                 </a>
             </li>
+            @endhasanyrole
             <!-- Products -->
+            @hasanyrole('owner|stocker|manager|supervisor')
             <li>
                 <a href="{{ route('products.index') }}" class="{{ request()->routeIs('products.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-box"></i>
                     Products
                 </a>
             </li>
+            @endhasanyrole
+            @hasanyrole('owner|cashier|manager|supervisor')
             <!-- Transactions with Submenu -->
             <li class="relative">
                 <input type="checkbox" id="menu-transactions" class="peer hidden">
@@ -61,20 +66,25 @@
                     </svg>
                 </label>
                 <ul class="hidden peer-checked:block ml-5 mt-2 space-y-2">
+                    @hasanyrole('cashier|manager|supervisor')
                     <li>
                         <a href="{{ route('transactions.create') }}" class="{{ request()->routeIs('transactions.create') ? 'active' : '' }}">
                             <i class="fa-solid fa-cash-register"></i>
                             Transaction
                         </a>
                     </li>
+                    @endhasanyrole
+                    @hasanyrole('cashier|manager|supervisor')
                     <li>
                         <a href="{{ route('transactions.index') }}" class="{{ request()->routeIs('transactions.index') ? 'active' : '' }}">
                             <i class="fa-solid fa-file-invoice"></i>
                             Report Transaction
                         </a>
                     </li>
+                    @endhasanyrole
                 </ul>
             </li>
+            @endhasanyrole
         </ul>
     </aside>
 </div>
