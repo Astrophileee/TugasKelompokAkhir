@@ -51,7 +51,7 @@ Route::middleware(['auth:web','role:owner'])->group(function () {
     Route::delete('/branches/{branch}', [BranchController::class, 'destroy'])->name('branches.destroy');
 });
 
-Route::middleware(['auth:web', 'role:stocker|manager|owner|supervisor'])->group(function () {
+Route::middleware(['auth:web', 'role:stocker|manager|owner'])->group(function () {
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 });
 
@@ -70,13 +70,14 @@ Route::middleware(['auth:web', 'role:stocker|manager|owner'])->group(function ()
 Route::middleware(['auth:web','role:cashier|manager|supervisor|owner'])->group(function () {
     Route::get('/transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
-    Route::get('/transactions/search', [TransactionController::class, 'search'])->name('transactions.search');
-    Route::get('/transactions/{transaction}/detail', [TransactionController::class, 'show'])->name('transactions.detail');
-});
-
-Route::middleware(['auth:web','role:owner|cashier|manager'])->group(function () {
     Route::get('/transactions/{transaction}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
     Route::patch('/transactions/{transaction}', [TransactionController::class, 'update'])->name('transactions.update');
+    Route::get('/transactions/search', [TransactionController::class, 'search'])->name('transactions.search');
+    Route::get('/transactions/{transaction}/detail', [TransactionController::class, 'show'])->name('transactions.detail');
+
+});
+
+Route::middleware(['auth:web','role:owner|supervisor|manager'])->group(function () {
     Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 });
 
@@ -85,12 +86,11 @@ Route::middleware(['auth:web','role:cashier|manager|supervisor|owner'])->group(f
     Route::get('/transaction/{transaction}/receipt', [TransactionController::class, 'generateReceiptPDF'])->name('transaction.receipt');
 });
 
-Route::middleware(['auth:web','role:owner|manager'])->group(function () {
-    Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+Route::middleware(['auth:web', 'role:owner|manager'])->group(function () {
+    Route::get('/products/pdf', [ProductController::class, 'generatePDF'])->name('products.pdf');
 });
 
 Route::middleware(['auth:web', 'role:owner|supervisor|manager'])->group(function () {
-    Route::get('/products/pdf', [ProductController::class, 'generatePDF'])->name('products.pdf');
     Route::get('/transactions/pdf', [TransactionController::class, 'generatePDF'])->name('transactions.pdf');
 });
 Route::middleware(['auth:web', 'role:owner'])->group(function () {

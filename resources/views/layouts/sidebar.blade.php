@@ -44,7 +44,7 @@
             <!-- Branches -->
             @hasanyrole('admin|owner')
             <li>
-                <a href="{{ route('branches.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
+                <a href="{{ route('branches.index') }}" class="{{ request()->routeIs('branches.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-users"></i>
                     Branches
                 </a>
@@ -53,14 +53,14 @@
             <!-- Users -->
             @hasanyrole('admin|owner')
             <li>
-                <a href="{{ route('users.index') }}" class="{{ request()->routeIs('branches.*') ? 'active' : '' }}">
+                <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-code-branch"></i>
                     Users
                 </a>
             </li>
             @endhasanyrole
             <!-- Products -->
-            @hasanyrole('owner|stocker|manager|supervisor')
+            @hasanyrole('owner|stocker|manager')
             <li>
                 <a href="{{ route('products.index') }}" class="{{ request()->routeIs('products.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-box"></i>

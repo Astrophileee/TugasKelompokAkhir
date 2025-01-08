@@ -60,14 +60,14 @@
                                         Detail
                                     </button>
                                 </a>
-                                @hasanyrole('cashier|manager|owner')
+                                @hasanyrole('cashier|manager|owner|supervisor')
                                 <a href="{{ route('transactions.edit', $transaction) }}">
                                     <button class="text-info hover:text-blue-900 border border-info rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200">
                                         Edit
                                     </button>
                                 </a>
                                 @endhasanyrole
-                                @hasanyrole('manager|owner')
+                                @hasanyrole('manager|owner|supervisor')
                                 <form id="deleteForm{{ $transaction->id }}" action="{{ route('transactions.destroy', $transaction) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
