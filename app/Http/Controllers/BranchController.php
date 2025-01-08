@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateBranchRequest;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 class BranchController extends Controller
 {
@@ -99,5 +100,17 @@ class BranchController extends Controller
         }
         $request->session()->put('selected_branch_id', $branch->id);
         return redirect()->route('dashboard')->with('success', 'Cabang berhasil dipilih!');
+    }
+
+    public function generatePDF(){
+
+        $branches = Branch::all();
+
+        $pdf = FacadePdf::loadView('branches.pdf', [
+            'branches' => $branches
+        ]);
+
+        return $pdf->download('All_Branch'. '.pdf');
+
     }
 }

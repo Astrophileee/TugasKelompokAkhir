@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 class UserController extends Controller
 {
@@ -103,5 +104,21 @@ class UserController extends Controller
         }
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User deleted successfully!');
+    }
+
+    public function generatePDF(){
+
+        $branches = Branch::all();
+        $users = User::all();
+        $roles = Role::all();
+
+        $pdf = FacadePdf::loadView('users.pdf', [
+            'users' => $users,
+            'branches' => $branches,
+            'roles' => $roles
+        ]);
+
+        return $pdf->download('All_User'. '.pdf');
+
     }
 }

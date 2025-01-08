@@ -101,6 +101,14 @@
                 </ul>
             </li>
             @endhasanyrole
+            @hasanyrole('owner')
+            <li>
+                <a href="{{ route('branches.select') }}">
+                    <i class="fa-solid fa-chevron-left"></i>
+                    Switch Branch
+                </a>
+            </li>
+            @endhasanyrole
         </ul>
     </aside>
 </div>

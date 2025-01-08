@@ -33,7 +33,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($transactions as $transaction )
+                    @php
+                        $grandTotal = 0;
+                    @endphp
+                    @foreach ($transactions as $transaction)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $transaction->transaction_number }}</td>
@@ -68,8 +71,18 @@
                             </div>
                         </td>
                     </tr>
+                    @php
+                        $grandTotal += $transaction->total_price;
+                    @endphp
                     @endforeach
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-right font-bold">Grand Total:</td>
+                        <td class="font-bold">Rp. {{ number_format($grandTotal, 0, ',', '.') }}</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>

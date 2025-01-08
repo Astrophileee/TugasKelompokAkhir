@@ -9,13 +9,22 @@
     <div class="card-body">
         <div class="flex justify-between items-center mb-4">
             <h2 class="card-title">Branches List</h2>
-            <span></span>
-            <a href="{{ route('branches.create') }}">
-                <button class="btn btn-success flex items-center rounded-md">
-                    <i class="fas fa-plus"></i>
-                    Tambah
-                </button>
-            </a>
+            <div class="flex gap-2">
+                    <a href="{{ route('branches.create') }}">
+                        <button class="btn btn-success flex items-center rounded-md">
+                            <i class="fas fa-plus"></i>
+                            Tambah
+                        </button>
+                    </a>
+                @hasanyrole('owner')
+                    <a href="{{ route('branches.pdf') }}">
+                        <button class="btn btn-error flex items-center rounded-md">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            Print PDF
+                        </button>
+                    </a>
+                @endhasanyrole
+            </div>
         </div>
         <div class="overflow-x-auto">
             <table id="tableBranches" class="table table-zebra datatable">

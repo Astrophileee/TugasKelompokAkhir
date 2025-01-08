@@ -16,16 +16,29 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
+        /** @var \App\Models\User $user */
+        $user = $request->user();
+        if ($user->hasRole('owner')) {
+            $branchId = session('selected_branch_id');
+        } else {
+            $branchId = $user->branch_id;
+        }
+
         $data = [
-            'users_count' => User::count(),
-            'products_count' => Product::count(),
+            'users_count' => User::where('branch_id', $branchId)->count(),
+            'products_count' => Product::where('branch_id', $branchId)->count(),
             'branches_count' => Branch::count(),
-            'transactions_count' => Transaction::count(),
-            'transaction_products_count' => TransactionDetail::count(),
-            'totalQty' => TransactionDetail::sum('qty'),
-            'user' => $request->user(),
+            'transactions_count' => Transaction::where('branch_id', $branchId)->count(),
+            'transaction_products_count' => TransactionDetail::whereHas('transaction', function ($query) use ($branchId) {
+                $query->where('branch_id', $branchId);
+            })->count(),
+            'totalQty' => TransactionDetail::whereHas('transaction', function ($query) use ($branchId) {
+                $query->where('branch_id', $branchId);
+            })->sum('qty'),
+            'user' => $user,
         ];
-        return view('dashboard',compact('data'));
+
+        return view('dashboard', compact('data'));
     }
 
     /**

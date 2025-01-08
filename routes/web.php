@@ -59,10 +59,6 @@ Route::middleware(['auth:web', 'role:cashier|manager|owner|supervisor'])->group(
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 });
 
-Route::middleware(['auth:web', 'role:owner|supervisor|manager'])->group(function () {
-    Route::get('/products/pdf', [ProductController::class, 'generatePDF'])->name('products.pdf');
-});
-
 Route::middleware(['auth:web', 'role:stocker|manager'])->group(function () {
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
@@ -86,6 +82,15 @@ Route::middleware(['auth:web','role:owner|cashier|manager'])->group(function () 
 
 Route::middleware(['auth:web','role:owner|manager'])->group(function () {
     Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+});
+
+Route::middleware(['auth:web', 'role:owner|supervisor|manager'])->group(function () {
+    Route::get('/products/pdf', [ProductController::class, 'generatePDF'])->name('products.pdf');
+    Route::get('/transactions/pdf', [TransactionController::class, 'generatePDF'])->name('transactions.pdf');
+});
+Route::middleware(['auth:web', 'role:owner'])->group(function () {
+    Route::get('/branches/pdf', [BranchController::class, 'generatePDF'])->name('branches.pdf');
+    Route::get('/users/pdf', [UserController::class, 'generatePDF'])->name('users.pdf');
 });
 
 require __DIR__.'/auth.php';

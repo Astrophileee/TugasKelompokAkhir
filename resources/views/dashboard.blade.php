@@ -10,6 +10,7 @@
                     {{ __("Anda Sudah Login!") }}
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    @hasanyrole('owner|admin')
                     <!-- Total Users -->
                     <div class="card border border-secondary shadow-md rounded-xl p-4">
                         <div class="card-body text-center">
@@ -22,7 +23,8 @@
                             </p>
                         </div>
                     </div>
-
+                    @endhasanyrole
+                    @hasanyrole('owner|manager|stocker|supervisor')
                     <!-- Total Products -->
                     <div class="card border border-secondary shadow-md rounded-xl p-4">
                         <div class="card-body text-center">
@@ -35,7 +37,8 @@
                             </p>
                         </div>
                     </div>
-
+                    @endhasanyrole
+                    @hasanyrole('owner|manager|supervisor|cashier')
                     <!-- Total Products in Transactions -->
                     <div class="card border border-secondary shadow-md rounded-xl p-4">
                         <div class="card-body text-center">
@@ -48,7 +51,8 @@
                             </p>
                         </div>
                     </div>
-
+                    @endhasanyrole
+                    @hasanyrole('owner|manager|supervisor|cashier')
                     <!-- Total qty Products in Transactions -->
                     <div class="card border border-secondary shadow-md rounded-xl p-4">
                         <div class="card-body text-center">
@@ -61,7 +65,8 @@
                             </p>
                         </div>
                     </div>
-
+                    @endhasanyrole
+                    @hasanyrole('owner|admin')
                     <!-- Total Branches -->
                     <div class="card border border-secondary shadow-md rounded-xl p-4">
                         <div class="card-body text-center">
@@ -74,7 +79,8 @@
                             </p>
                         </div>
                     </div>
-
+                    @endhasanyrole
+                    @hasanyrole('owner|manager|cashier|supervisor')
                     <!-- Total Transactions -->
                     <div class="card border border-secondary shadow-md rounded-xl p-4">
                         <div class="card-body text-center">
@@ -87,6 +93,7 @@
                             </p>
                         </div>
                     </div>
+                    @endhasanyrole
                 </div>
             </div>
         </div>

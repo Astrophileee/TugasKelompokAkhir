@@ -21,7 +21,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="location" class="block text-sm font-medium text-white">Branch Location</label>
-                    <textarea name="location" id="location" class="input input-bordered w-full" placeholder="Enter branch location" required>value="{{ old('location') }}"</textarea>
+                    <textarea name="location" id="location" class="input input-bordered w-full" placeholder="Enter branch location" required>{{ old('location') }}</textarea>
                     @error('location')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
