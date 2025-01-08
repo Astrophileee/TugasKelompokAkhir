@@ -10,7 +10,7 @@
         <div class="flex justify-between items-center mb-4">
             <h2 class="card-title">Product List</h2>
             <div class="flex gap-2">
-                @hasanyrole('manager')
+                @hasanyrole('manager|stocker')
                     <a href="{{ route('products.create') }}">
                         <button class="btn btn-success flex items-center rounded-md">
                             <i class="fas fa-plus"></i>
@@ -60,8 +60,6 @@
                                         Edit
                                     </button>
                                 </a>
-                                @endhasanyrole
-                                @hasanyrole('manager')
                                 <form id="deleteForm{{ $product->id }}" action="{{ route('products.destroy', $product) }}" method="POST">
                                     @csrf
                                     @method('DELETE')

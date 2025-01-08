@@ -18,6 +18,16 @@
                     </button>
                 </a>
             @endhasanyrole
+            @hasanyrole('owner|manager|supervisor')
+            <form action="{{ route('transactions.pdf') }}" method="GET" class="flex gap-2">
+                <input type="date" name="start_date" class="input input-bordered" required />
+                <input type="date" name="end_date" class="input input-bordered" required />
+                <button type="submit" class="btn btn-error flex items-center rounded-md">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    Print PDF
+                </button>
+            </form>
+            @endhasanyrole
         </div>
 
         <div class="overflow-x-auto">

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 class TransactionController extends Controller
 {
@@ -197,5 +198,43 @@ class TransactionController extends Controller
 
         return response()->json($products);
     }
+
+    public function generatePDF(Request $request)
+    {
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $branchName = '';
+        $branchId = null;
+        if ($user->hasRole('owner')) {
+            $selectedBranch = Branch::find(session('selected_branch_id'));
+            $branchName = $selectedBranch->name ?? 'Cabang Tidak Ditemukan';
+            $branchId = $selectedBranch->id ?? null;
+        } else {
+            $branchName = $user->branch->name ?? 'Cabang Tidak Ditemukan';
+            $branchId = $user->branch->id ?? null;
+        }
+        $validated = $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+        $transactions = Transaction::where('branch_id', $branchId)
+            ->whereBetween('date', [$validated['start_date'], $validated['end_date']])
+            ->get();
+        if ($transactions->isEmpty()) {
+            $message = 'No transactions found in the selected date range.';
+        } else {
+            $message = null;
+        }
+        $pdf = FacadePdf::loadView('transactions.pdf', [
+            'transactions' => $transactions,
+            'branchName' => $branchName,
+            'start_date' => $validated['start_date'],
+            'end_date' => $validated['end_date'],
+            'message' => $message,
+        ]);
+
+        return $pdf->download('transactions_' . $branchName . '_' . $validated['start_date'] . '_to_' . $validated['end_date'] . '.pdf');
+    }
+
 
 }
