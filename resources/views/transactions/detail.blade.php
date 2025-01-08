@@ -42,6 +42,15 @@
                     @endforelse
                 </tbody>
             </table>
+
+            <!-- Tombol Print -->
+            <div class="mt-4">
+                <a href="{{ route('transaction.receipt', $transaction) }}"
+                    class="btn btn-primary"
+                    target="_blank">
+                    Print Receipt
+                </a>
+            </div>
         </div>
     </div>
 </x-app-layout>

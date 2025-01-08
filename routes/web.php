@@ -80,6 +80,11 @@ Route::middleware(['auth:web','role:owner|cashier|manager'])->group(function () 
     Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 });
 
+Route::middleware(['auth:web','role:cashier|manager|supervisor|owner'])->group(function () {
+    Route::get('/transactions/{transaction}/detail', [TransactionController::class, 'show'])->name('transactions.detail');
+    Route::get('/transaction/{transaction}/receipt', [TransactionController::class, 'generateReceiptPDF'])->name('transaction.receipt');
+});
+
 Route::middleware(['auth:web','role:owner|manager'])->group(function () {
     Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 });

@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class TransactionController extends Controller
 {
@@ -235,6 +237,20 @@ class TransactionController extends Controller
 
         return $pdf->download('transactions_' . $branchName . '_' . $validated['start_date'] . '_to_' . $validated['end_date'] . '.pdf');
     }
+
+
+
+    public function generateReceiptPDF($transactionId)
+    {
+        $transaction = Transaction::with('transactionDetails.product')->findOrFail($transactionId);
+        $pdf = FacadePdf::loadView('transactions.detailPdf', [
+            'transaction' => $transaction,
+        ]);
+        $fileName = 'Receipt_' . $transaction->transaction_number . '.pdf';
+        return $pdf->download($fileName);
+    }
+
+
 
 
 }
