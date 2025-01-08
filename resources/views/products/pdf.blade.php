@@ -28,6 +28,7 @@
 </head>
 <body>
     <h1>All Products Cabang: {{ $branchName }}</h1>
+    <p>Date Range: {{ $start_date }} to {{ $end_date }}</p>
     <table>
         <thead>
             <tr>
@@ -49,7 +50,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($products as $product)
+            @forelse ($products as $product)
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap">{{ $loop->iteration }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ ucwords(strtolower($product->name)) }}</td>
@@ -57,7 +58,11 @@
                     <td class="px-6 py-4 whitespace-nowrap">{{ ucwords(strtolower($product->price)) }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ ucwords(strtolower($product->stock)) }}</td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="5" style="text-align: center;">No products found in the selected date range.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 </body>

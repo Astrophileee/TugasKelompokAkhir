@@ -19,12 +19,14 @@
                     </a>
                 @endhasanyrole
                 @hasanyrole('manager|owner|supervisor')
-                    <a href="{{ route('products.pdf') }}">
-                        <button class="btn btn-error flex items-center rounded-md">
+                    <form action="{{ route('products.pdf') }}" method="GET" class="flex gap-2">
+                        <input type="date" name="start_date" class="input input-bordered" required />
+                        <input type="date" name="end_date" class="input input-bordered" required />
+                        <button type="submit" class="btn btn-error flex items-center rounded-md">
                             <i class="fa-solid fa-file-pdf"></i>
                             Print PDF
                         </button>
-                    </a>
+                    </form>
                 @endhasanyrole
             </div>
         </div>
@@ -37,6 +39,7 @@
                         <th>Name</th>
                         <th>Price</th>
                         <th>Stock</th>
+                        <th>Last Updated</th> <!-- Kolom untuk updated_at -->
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -48,6 +51,7 @@
                         <td>{{ ucwords($product->name) }}</td>
                         <td>Rp. {{ number_format($product->price, 0, ',', '.') }}</td>
                         <td>{{ $product->stock }}</td>
+                        <td>{{ $product->updated_at->format('Y-m-d') }}</td> <!-- Format tanggal -->
                         <td>
                             <div class="flex space-x-2">
                                 @hasanyrole('manager|stocker')
@@ -77,7 +81,6 @@
         </div>
     </div>
 </div>
-
 
 <script>
     function confirmDelete(productId) {
