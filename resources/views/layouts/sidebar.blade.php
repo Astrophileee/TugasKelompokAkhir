@@ -82,7 +82,7 @@
                     </svg>
                 </label>
                 <ul class="hidden peer-checked:block ml-5 mt-2 space-y-2">
-                    @hasanyrole('cashier|manager|supervisor')
+                    @hasanyrole('cashier|manager|supervisor|owner')
                     <li>
                         <a href="{{ route('transactions.create') }}" class="{{ request()->routeIs('transactions.create') ? 'active' : '' }}">
                             <i class="fa-solid fa-cash-register"></i>

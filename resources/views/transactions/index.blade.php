@@ -10,7 +10,7 @@
         <div class="flex justify-between items-center mb-4">
             <h2 class="card-title">Transactions List</h2>
             <span></span>
-            @hasanyrole('cashier|manager|supervisor')
+            @hasanyrole('cashier|manager|supervisor|owner')
                 <a href="{{ route('transactions.create') }}">
                     <button class="btn btn-success flex items-center rounded-md">
                         <i class="fas fa-plus"></i>

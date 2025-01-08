@@ -10,7 +10,7 @@
         <div class="flex justify-between items-center mb-4">
             <h2 class="card-title">Product List</h2>
             <div class="flex gap-2">
-                @hasanyrole('manager|stocker')
+                @hasanyrole('manager|stocker|owner')
                     <a href="{{ route('products.create') }}">
                         <button class="btn btn-success flex items-center rounded-md">
                             <i class="fas fa-plus"></i>
@@ -54,7 +54,7 @@
                         <td>{{ $product->updated_at->format('Y-m-d') }}</td> <!-- Format tanggal -->
                         <td>
                             <div class="flex space-x-2">
-                                @hasanyrole('manager|stocker')
+                                @hasanyrole('manager|stocker|owner')
                                 <a href="{{ route('products.edit', $product) }}">
                                     <button class="text-blue-600 hover:text-blue-900 border border-blue-600 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200">
                                         Edit

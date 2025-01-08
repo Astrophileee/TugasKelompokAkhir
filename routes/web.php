@@ -59,7 +59,7 @@ Route::middleware(['auth:web', 'role:cashier|manager|owner|supervisor'])->group(
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 });
 
-Route::middleware(['auth:web', 'role:stocker|manager'])->group(function () {
+Route::middleware(['auth:web', 'role:stocker|manager|owner'])->group(function () {
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
@@ -67,7 +67,7 @@ Route::middleware(['auth:web', 'role:stocker|manager'])->group(function () {
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 
-Route::middleware(['auth:web','role:cashier|manager|supervisor'])->group(function () {
+Route::middleware(['auth:web','role:cashier|manager|supervisor|owner'])->group(function () {
     Route::get('/transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
     Route::get('/transactions/search', [TransactionController::class, 'search'])->name('transactions.search');
