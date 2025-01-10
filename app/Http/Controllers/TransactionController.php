@@ -54,9 +54,20 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request)
     {
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $branchId = '';
+
+        if ($user->hasRole('owner')) {
+            $selectedBranch = Branch::find(session('selected_branch_id'));
+            $branchId = $selectedBranch->id ?? 'Cabang Tidak Ditemukan';
+        } else {
+            $branchId = $user->branch->id ?? 'Cabang Tidak Ditemukan';
+        }
+        $branchId = $branchId;
+
         $validated = $request->validated();
         $user = Auth::user();
-        $branchId = $user->branch_id;
 
         DB::beginTransaction();
         try {

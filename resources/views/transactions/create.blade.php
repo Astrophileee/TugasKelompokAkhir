@@ -1,3 +1,6 @@
+
+
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-base-content leading-tight">
@@ -193,15 +196,21 @@
         function updateQty(id, qty) {
             const product = cart.find(item => item.id === id);
             if (product) {
-                if (qty < 1 || qty > product.stock) {
-                    Swal.fire('Jumlah Tidak Valid', 'Jumlah tidak boleh melebihi stok atau kurang dari 1!', 'error');
-                    return;
+                qty = parseInt(qty, 10);
+
+                if (isNaN(qty) || qty < 1) {
+                    Swal.fire('Jumlah Tidak Valid', 'Jumlah tidak boleh kurang dari 1!', 'error');
+                    qty = 1;
+                } else if (qty > product.stock) {
+                    Swal.fire('Jumlah Tidak Valid', 'Jumlah melebihi stok yang tersedia!', 'warning');
+                    qty = product.stock;
                 }
-                product.qty = parseInt(qty, 10);
+                product.qty = qty;
                 product.total = product.qty * product.price;
                 renderCart();
             }
         }
+
         function removeFromCart(id) {
             cart = cart.filter(item => item.id !== id);
             renderCart();

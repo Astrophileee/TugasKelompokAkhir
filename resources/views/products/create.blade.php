@@ -1,3 +1,18 @@
+@php
+    use App\Models\Branch;
+    /** @var \App\Models\User */
+    $user = Auth::user();
+        $branchId = '';
+
+        if ($user->hasRole('owner')) {
+            $selectedBranch = Branch::find(session('selected_branch_id'));
+            $branchId = $selectedBranch->id ?? 'Cabang Tidak Ditemukan';
+        } else {
+            $branchId = $user->branch->id ?? 'Cabang Tidak Ditemukan';
+        }
+        $branchId = $branchId;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-base-content leading-tight">
@@ -12,7 +27,7 @@
             </div>
             <form action="{{ route('products.store') }}" method="POST">
                 @csrf
-                <input type="hidden" name="branch_id" value="{{ Auth::user()->branch_id }}">
+                <input type="hidden" name="branch_id" value="{{ $branchId }}">
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-white">Product Name</label>
                     <input type="text" name="name" id="name" class="input input-bordered w-full" placeholder="Enter product name" value="{{ old('name') }}" required>

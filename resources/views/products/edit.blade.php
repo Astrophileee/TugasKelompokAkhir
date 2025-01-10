@@ -1,3 +1,18 @@
+@php
+    use App\Models\Branch;
+    /** @var \App\Models\User */
+    $user = Auth::user();
+        $branchId = '';
+
+        if ($user->hasRole('owner')) {
+            $selectedBranch = Branch::find(session('selected_branch_id'));
+            $branchId = $selectedBranch->id ?? 'Cabang Tidak Ditemukan';
+        } else {
+            $branchId = $user->branch->id ?? 'Cabang Tidak Ditemukan';
+        }
+        $branchId = $branchId;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-base-content leading-tight">
@@ -13,7 +28,7 @@
             <form action="{{ route('products.update', $product) }}" method="POST">
                 @csrf
                 @method('PATCH')
-                <input type="hidden" name="branch_id" value="{{ Auth::user()->branch_id }}">
+                <input type="hidden" name="branch_id" value="{{ $branchId }}">
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-white">Product Name</label>
                     <input type="text" name="name" id="name" value="{{ old('name', $product->name) }}" class="input input-bordered w-full" placeholder="Enter product name" required>
@@ -30,14 +45,14 @@
                 </div>
                 <div class="mb-4">
                     <label for="stock" class="block text-sm font-medium text-white">Stock</label>
-                    <input type="number" name="stock" id="stock" value="{{ old('name', $product->stock) }}" class="input input-bordered w-full" placeholder="Enter product stock" required min="0">
+                    <input type="number" name="stock" id="stock" value="{{ old('stock', $product->stock) }}" class="input input-bordered w-full" placeholder="Enter product stock" required min="0">
                     @error('stock')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="mb-4">
                     <label for="price" class="block text-sm font-medium text-white">Price</label>
-                    <input type="text" name="price" id="price" value="{{ old('name', $product->price) }}" class="input input-bordered w-full" placeholder="Enter product price" required>
+                    <input type="text" name="price" id="price" value="{{ old('price', $product->price) }}" class="input input-bordered w-full" placeholder="Enter product price" required>
                     @error('price')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
